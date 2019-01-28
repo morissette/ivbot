@@ -14,3 +14,9 @@ cp envfile_sample envfile
 source envfile
 python bot.py
 ```
+
+## Example Output
+This is for group me but should easily be modified for whatever communication
+method you prefer.
+
+![example output](img/sample.png)
