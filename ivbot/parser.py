@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 import re
 import json
 import logging
@@ -12,6 +13,7 @@ COORD_PATTERN = re.compile(r'(-?)(\d+\.\d+),(-?)(\d+\.\d+)', re.MULTILINE)
 TAGS_WE_CARE_ABOUT = ['shinycheck', '100iv']  # Customize to your liking
 TEXT_WE_CARE_ABOUT = ['pokemon', '100iv']  # Customize to your liking
 UNKNOWN = "unknown"
+POKEMON_FILE = os.getenv('POKEMON_FILE', 'data/en.json')
 
 logger = logging.getLogger(__name__)
 
@@ -20,8 +22,7 @@ def get_pokemon_names():
     Get a list of pokemon
     :return: List of names (all lowercase)
     """
-    filename = 'data/en.json'
-    with open(filename, 'r') as fh:
+    with open(POKEMON_FILE, 'r') as fh:
         pokemon = json.load(fh)
         return [name.lower() for name in pokemon]
 

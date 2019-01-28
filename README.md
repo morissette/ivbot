@@ -7,12 +7,25 @@ Wanted to try out getting 100IV pokemon via you know; somewhat non legit methods
 ## Bot.py
 Scrapes twitter every 5 mins and posts message somewhere
 
-## Config
+## Config for Twitter
 Set variables in a environment file
 ```bash
 cp envfile_sample envfile
 source envfile
 python bot.py
+```
+
+## Config for Custom Pokemon
+Maybe you only want certain 100IV pokemon. You can override the current list by
+setting *POKEMON_FILE* in your environment with the path to a json file that 
+contains a array of pokemon names.
+
+### Example
+```json
+[
+  "Bulbasaur",
+  "Charmander"
+]
 ```
 
 ## Example Output
