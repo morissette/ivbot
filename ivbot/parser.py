@@ -17,6 +17,7 @@ POKEMON_FILE = os.getenv('POKEMON_FILE', 'data/en.json')
 
 logger = logging.getLogger(__name__)
 
+
 def get_pokemon_names():
     """
     Get a list of pokemon

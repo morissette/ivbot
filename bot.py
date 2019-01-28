@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 from datetime import datetime
 import os
+import re
 import json
 import base64
 import logging
@@ -9,11 +10,12 @@ import requests
 import time
 import twitter
 
-from ivbot.parser import get_pokemon_results
+from ivbot.parser import get_pokemon_results, UNKNOWN
 
 
 # Configuration
 SLEEP_INTERVAL = os.getenv('SLEEP_INTERVAL', 300)
+MIN_CP = os.getenv('MIN_CP', 20)
 
 # Group Me constants
 GROUPME_API_URL = os.getenv('GROUPME_API_URL', 'https://api.groupme.com/v3/')
@@ -46,13 +48,32 @@ class IvBot:
         self.reported = {}
 
     @staticmethod
-    def send_msg(msg):
+    def check_min_cp(cp):
+        """
+        Check if the pokemon meets the min cp
+        set
+        :param cp: Raw CP
+        :return: Boolean
+        """
+        if cp == UNKNOWN:
+            return True
+        m = re.search(r'(\d+)')
+        if m:
+            cp = int(m.groups(0)[0])
+            if cp >= MIN_CP:
+                return True
+        return False
+
+    def send_msg(self, msg):
         """
         Send message to group me
         :param date: Date
         :param msg: Twitter msg
         """
         logger.debug(msg)
+
+        if self.check_min_cp(msg['cp']):
+            return
 
         # format message
         msg = """A wild {} appeared! It has 100IV!!!\n
