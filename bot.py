@@ -60,7 +60,7 @@ class IvBot:
             return True
 
         # Parse digits
-        m = re.search(r'(\d+)')
+        m = re.search(r'(\d+)', value)
         if m:
             value = int(m.groups(0)[0])
             if option == 'cp':
