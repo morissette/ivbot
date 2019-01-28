@@ -16,6 +16,7 @@ from ivbot.parser import get_pokemon_results, UNKNOWN
 # Configuration
 SLEEP_INTERVAL = os.getenv('SLEEP_INTERVAL', 300)
 MIN_CP = os.getenv('MIN_CP', 20)
+MIN_LEVEL = os.getenv('MIN_LEVEL', 20)
 
 # Group Me constants
 GROUPME_API_URL = os.getenv('GROUPME_API_URL', 'https://api.groupme.com/v3/')
@@ -48,20 +49,26 @@ class IvBot:
         self.reported = {}
 
     @staticmethod
-    def check_min_cp(cp):
+    def check_min(value, option):
         """
-        Check if the pokemon meets the min cp
-        set
-        :param cp: Raw CP
+        Check if the pokemon meets the min value
+        for a given option
+        :param option: Option
         :return: Boolean
         """
-        if cp == UNKNOWN:
+        if value == UNKNOWN:
             return True
+
+        # Parse digits
         m = re.search(r'(\d+)')
         if m:
-            cp = int(m.groups(0)[0])
-            if cp >= MIN_CP:
-                return True
+            value = int(m.groups(0)[0])
+            if option == 'cp':
+                if value <= MIN_CP:
+                    return True
+            elif option == 'level':
+                if value <= MIN_LEVEL:
+                    return True
         return False
 
     def send_msg(self, msg):
@@ -70,9 +77,10 @@ class IvBot:
         :param date: Date
         :param msg: Twitter msg
         """
-        logger.debug(msg)
-
-        if self.check_min_cp(msg['cp']):
+        # Min setting checks
+        if self.check_min(msg['cp'], 'cp'):
+            return
+        if self.check_min(msg['level'], 'level'):
             return
 
         # format message

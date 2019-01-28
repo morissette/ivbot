@@ -28,6 +28,18 @@ contains a array of pokemon names.
 ]
 ```
 
+## Config for Minimum CP
+Unsure why you would want this but whatever.
+```bash
+export MIN_CP=1000
+```
+
+## Config for Minimum Level
+Much more useful option.
+```bash
+export MIN_LEVEL=35
+```
+
 ## Example Output
 This is for group me but should easily be modified for whatever communication
 method you prefer.
